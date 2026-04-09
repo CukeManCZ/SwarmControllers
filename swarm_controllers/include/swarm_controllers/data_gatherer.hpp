@@ -121,6 +121,7 @@ namespace data_gatherer
         //|----------------------- miscel ---------------------|
         bool IsInitialized(std::string functionName);
         void OpenNewCSV();
+        void SaveOctomap();
     };
 }
 #endif

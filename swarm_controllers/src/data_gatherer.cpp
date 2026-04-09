@@ -182,7 +182,7 @@ namespace data_gatherer {
         }
 
         tree_.reset(octree);
-
+        SaveOctomap();
         {
             std::lock_guard<std::mutex> lock(mutex_octomap_received);
             octomapReceived_ = true;
@@ -208,9 +208,10 @@ namespace data_gatherer {
             std::lock_guard<std::mutex> lock(mutex_octomap_received);
 
             if (newOctomap_) {
-            octomap_counter_++;
-            start_new_file = true;
-            newOctomap_ = false;
+                octomap_counter_++;
+                start_new_file = true;
+
+                newOctomap_ = false;
             }
 
             if (!octomapReceived_)
@@ -278,6 +279,18 @@ namespace data_gatherer {
         RCLCPP_INFO(node_->get_logger(),"Opened CSV: %s", filename.c_str());
     }
 
+    void DataGatherer::SaveOctomap()
+    {
+        if (!tree_) return;
+
+        std::string filename = run_folder_ + "octomap_" + std::to_string(octomap_counter_) + ".bt";
+
+        if (tree_->writeBinary(filename)) {
+            RCLCPP_INFO(node_->get_logger(), "Saved Octomap: %s", filename.c_str());
+        } else {
+            RCLCPP_ERROR(node_->get_logger(), "Failed to save Octomap!");
+        }
+    }
 }
 
 #include <rclcpp_components/register_node_macro.hpp>
