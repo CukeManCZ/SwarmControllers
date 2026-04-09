@@ -1,0 +1,43 @@
+uav_names: [
+  "uav1",
+  "uav2",
+  "uav3",
+  #"uav4",
+  #"uav5",
+  #"uav6",
+  #"uav7",
+  #"uav8",
+  #"uav9",
+  #"uav10"
+  ]
+
+odometry_topic: "estimation_manager/odom_main"
+intent_topic: "intent"
+
+set_reference_timer:
+  rate: 50 # [Hz]
+
+diagnostics:
+  rate: 0.5 # [Hz]
+  odom_timeout: 1.0 # [s]
+
+feedback:
+  rate: 10 # [Hz]
+  threshold: 0.1 #[m] 
+
+odom_msg_max_latency: 1.0 # [s]
+
+# control approach params
+controlled_dimensions: 3
+
+#15 / waypoint 8
+
+shape_constants:
+  default_rate: 10 #[Hz]
+  avoidance: 30.0
+  avoidance_distance: 4.0
+  waypoint: 4.0
+  cell_size: 0.25
+  threshold: 0.05
+  travel: 0.7
+  min_height: 1.0

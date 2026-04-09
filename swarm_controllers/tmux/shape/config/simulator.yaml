@@ -1,0 +1,57 @@
+#10% -> 10 drones
+#15% -> 9 drones
+#35% -> 6 drones
+#50% -> 5 drones
+#80% -> 4 drones
+#100% -> 3 drones
+
+simulation_rate: 100.0
+dynamic:
+  realtime_factor: 1.0
+  collisions:
+    crash: false
+    enabled: false
+
+frames:
+  fcu:
+    publish_tf: true
+
+uav_names: [
+  "uav1",
+  "uav2",
+  "uav3",
+  #"uav4",
+  #"uav5",
+  #"uav6",
+  #uav7,
+  #uav8,
+  #uav9,
+  #uav10
+]
+
+uav1:
+  type: "x500"
+  spawn:
+    x: 0.0
+    y: 0.0
+    z: 2.0
+    heading: 0.0
+
+uav2:
+  type: "x500"
+  spawn:
+    x: 3.0
+    y: 0.0
+    z: 2.0
+    heading: 0.0
+
+uav3:
+  type: "x500"
+  spawn:
+    x: 3.0
+    y: 3.0
+    z: 2.0
+    heading: 0.0
+
+individual_takeoff_platform:
+  enabled: true
