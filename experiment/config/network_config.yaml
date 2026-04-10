@@ -11,5 +11,4 @@
 network:
 
   robot_names: [
-    uav80,
   ]
