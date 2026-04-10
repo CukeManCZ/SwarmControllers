@@ -1,0 +1,4 @@
+float64 x_size
+float64 y_size
+---
+bool success
