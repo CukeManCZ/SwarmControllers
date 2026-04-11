@@ -233,7 +233,7 @@ namespace shape_controller {
       // --- Publish octomap ---
       octomap_msgs::msg::Octomap plain;
       if (octomap_msgs::binaryMapToMsg(*tree_, plain)) {
-        plain.header.frame_id = "simulator_origin";
+        plain.header.frame_id = _uav_name_  + "/world_origin";
         //plain.header.stamp = tf_msg.header.stamp;
         pub_octomac_rviz_.publish(plain);
         PublishShapeNodes(shapeNodes_);
@@ -433,7 +433,11 @@ namespace shape_controller {
     new_point.point.y = msg->pose.pose.position.y;
     new_point.point.z = msg->pose.pose.position.z;
 
-    //Position transform
+    Eigen::Vector3d transformed_position = Eigen::Vector3d(new_point.point.x, new_point.point.y, new_point.point.z);
+    Eigen::Vector3d transformed_velocity = Eigen::Vector3d (msg->twist.twist.linear.x, msg->twist.twist.linear.y, msg->twist.twist.linear.z);
+    
+    //Position transform -> this is needed only if drones are not in the same world frame, now we ignore it
+    /*
     auto res = transformer_->transformSingle(new_point, _control_frame_);
     if (res) {
       new_point = res.value();
@@ -468,6 +472,8 @@ namespace shape_controller {
     Eigen::Vector3d transformed_velocity = *vel_res;
     if (_c_dimensions_ != 3)
      transformed_velocity.z() = 0.0;
+    
+    */
 
     mrs_lib::set_mutexed(mutex_uav_odoms_, transformed_position, uav_positions_[idx]);
     mrs_lib::set_mutexed(mutex_uav_odoms_, transformed_velocity, uav_velocities_[idx]);
@@ -476,7 +482,7 @@ namespace shape_controller {
   }
   //}
   
-  //OdomCallback for UAVs //{
+  //IntentCallback for UAVs //{
   void ShapeController::IntentCallback(const geometry_msgs::msg::PoseStamped::ConstSharedPtr msg, size_t idx){
     if(!IsInitialized(__func__))
         return;
@@ -492,7 +498,8 @@ namespace shape_controller {
     new_point.point.y = msg->pose.position.y;
     new_point.point.z = msg->pose.position.z;
 
-    //Position transform
+    //Position transform -> this is needed only if drones are not in the same world frame, now we ignore it
+    /*
     auto res = transformer_->transformSingle(new_point, _control_frame_);
     if (res) {
       new_point = res.value();
@@ -507,7 +514,7 @@ namespace shape_controller {
     } else {
       transformed_position = Eigen::Vector3d(new_point.point.x, new_point.point.y, 0.0);
     }
-
+    */
     geometry_msgs::msg::PoseStamped intentPose;
     intentPose.header = new_point.header;
     intentPose.pose.position.x = new_point.point.x;
@@ -533,7 +540,11 @@ namespace shape_controller {
     new_point.point.y = msg->pose.pose.position.y;
     new_point.point.z = msg->pose.pose.position.z;
 
+    Eigen::Vector3d transformed_position = Eigen::Vector3d(new_point.point.x, new_point.point.y, new_point.point.z);
+    Eigen::Vector3d transformed_velocity = Eigen::Vector3d (msg->twist.twist.linear.x, msg->twist.twist.linear.y, msg->twist.twist.linear.z);
+
     //Position transform
+    /*
     auto res = transformer_->transformSingle(new_point, _control_frame_);
     if (res) {
       new_point = res.value();
@@ -568,10 +579,10 @@ namespace shape_controller {
     Eigen::Vector3d transformed_velocity = *vel_res;
     if (_c_dimensions_ != 3)
      transformed_velocity.z() = 0.0;
+    */
     
     uav_position_ = transformed_position;
     uav_velocity_ = transformed_velocity;
-
   }
   //}
 

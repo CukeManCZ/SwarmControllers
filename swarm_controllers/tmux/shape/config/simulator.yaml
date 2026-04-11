@@ -9,8 +9,8 @@ simulation_rate: 100.0
 dynamic:
   realtime_factor: 1.0
   collisions:
-    crash: false
-    enabled: false
+    crash: true
+    enabled: true
 
 frames:
   fcu:
@@ -19,7 +19,7 @@ frames:
 uav_names: [
   "uav1",
   "uav2",
-  "uav3",
+  #"uav3",
   #"uav4",
   #"uav5",
   #"uav6",
