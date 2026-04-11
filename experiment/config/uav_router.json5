@@ -131,8 +131,6 @@
 
   /// Here we specify the ROS2 message types, flows, and multiple possible key expressions which the rule will apply to.
     "rules": [
-
-    "rules": [
       {
         "id": "deny_tf_over_network",
         "messages": ["put", "delete", "declare_subscriber", "query", "reply","declare_queryable", "liveliness_token", "liveliness_query", "declare_liveliness_subscriber"],        
@@ -188,7 +186,7 @@
       {
         "id": "block_tf",
         "rules": ["deny_tf_over_network"],
-        "subjects": ["wifi_interfaces, local_loopback"]
+        "subjects": ["wifi_interfaces", "local_loopback"]
       },
       {
         "id": "wifi_block_realsense",
