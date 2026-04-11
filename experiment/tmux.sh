@@ -11,6 +11,7 @@ if [ "$(id -u)" == "0" ]; then
   exec sudo -u mrs "$0" "$@"
 fi
 
+# source ~/roj2_workspace/install/setup.bash
 source $HOME/.bashrc
 
 # location for storing the bag files
@@ -45,9 +46,9 @@ input=(
 '
   'AutoStart' 'ros2 launch mrs_uav_autostart automatic_start.launch.py custom_config:=./config/automatic_start.yaml
 '
-  'ShapeController' 'export UAV_NAME=uav81; waitForTakeoff; ros2 launch swarm_controllers shape_controller.launch.py
+  'ShapeController' 'export UAV_NAME=uav80; waitForTakeoff; ros2 launch swarm_controllers shape_controller.launch.py
 '
-  'Activation' 'export UAV_NAME=uav81; history -s ros2 service call /$UAV_NAME/activation std_srvs/srv/Trigger
+  'Activation' 'export UAV_NAME=uav80; history -s ros2 service call /$UAV_NAME/activation std_srvs/srv/Trigger
 '
 
 # do NOT modify the command list below
