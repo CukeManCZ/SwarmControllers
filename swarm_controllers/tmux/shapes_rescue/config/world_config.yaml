@@ -11,7 +11,7 @@ mrs_uav_managers:
 
     safety_area:
 
-      enabled: true
+      enabled: false
 
       horizontal:
 
@@ -23,17 +23,17 @@ mrs_uav_managers:
         # x, y [m] for any frame_name except latlon_origin
         # x = latitude, y = longitude [deg]  for frame_name=="latlon_origin"
         points: [
-          -15, -15,
-          15,  -15,
-          15,  15,
-          -15, 15,
+          -40, -25,
+          40,  -25,
+          40,  25,
+          -40, 25,
         ]
       vertical:
 
         # the frame of reference in which the max&min z is expressed
         frame_name: "world_origin"
 
-        max_z: 15.0
+        max_z: 30.0
         min_z: 0.5
 
       obstacles:

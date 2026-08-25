@@ -44,11 +44,11 @@ input=(
 '
   'Core' 'ros2 launch mrs_uav_core core.launch.py platform_config:=`ros2 pkg prefix mrs_uav_deployment`/share/mrs_uav_deployment/config/mrs_uav_system/$UAV_TYPE.yaml world_config:=`ros2 pkg prefix mrs_uav_deployment`/share/mrs_uav_deployment/config/worlds/world_$WORLD_NAME.yaml custom_config:=./config/custom_config.yaml network_config:=./config/network_config.yaml
 '
-  'AutoStart' 'ros2 launch mrs_uav_autostart automatic_start.launch.py custom_config:=./config/automatic_start.yaml
+  'AutoStart' 'ros2 launch mrs_uav_autostart automatic_start.launch.py
 '
-  'ShapeController' 'export UAV_NAME=uav80; waitForTakeoff; ros2 launch swarm_controllers shape_controller.launch.py
+  'ShapeController' 'export UAV_NAME=uav9; waitForTakeoff; ros2 launch swarm_controllers shape_controller.launch.py
 '
-  'Activation' 'export UAV_NAME=uav80; history -s ros2 service call /$UAV_NAME/activation std_srvs/srv/Trigger
+  'Activation' 'export UAV_NAME=uav9; history -s ros2 service call /$UAV_NAME/activation std_srvs/srv/Trigger
 '
 
 # do NOT modify the command list below
@@ -71,7 +71,7 @@ attach=true
 ### DO NOT MODIFY BELOW ###
 ###########################
 
-export TMUX_BIN="/usr/bin/tmux -L mrs -f /etc/ctu-mrs/tmux.conf"
+export TMUX_BIN="tmux -L mrs -f /etc/ctu-mrs/tmux.conf"
 
 # find the session
 FOUND=$( $TMUX_BIN ls | grep $SESSION_NAME )
@@ -142,7 +142,9 @@ done
 # send commands
 for ((i=0; i < ${#cmds[*]}; i++));
 do
-  $TMUX_BIN send-keys -t $SESSION_NAME:$(($i+1)) "cd $SCRIPTPATH;${pre_input};${cmds[$i]}"
+  $TMUX_BIN send-keys -t $SESSION_NAME:$(($i+1)) "cd $SCRIPTPATH;
+${pre_input};
+${cmds[$i]}"
 done
 
 # identify the index of the init window

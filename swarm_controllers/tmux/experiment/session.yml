@@ -1,0 +1,59 @@
+# do not modify these
+root: ./
+name: simulation
+socket_name: mrs
+attach: false
+tmux_options: -f /etc/ctu-mrs/tmux.conf
+# you can modify these
+startup_window: status
+windows:
+  - router:
+      layout: tiled
+      panes:
+        - export ZENOH_ROUTER_CONFIG_URI=/home/traskos/ws_examples/src/swarm_controllers/tmux/experiment/config/router_pc.json5; ros2 run rmw_zenoh_cpp rmw_zenohd
+  - status:
+      layout: tiled
+      panes:
+        - export UAV_NAME=uav11; ros2 run mrs_uav_status status.sh
+        - export UAV_NAME=uav12; ros2 run mrs_uav_status status.sh
+        #- export UAV_NAME=uav16; ros2 run mrs_uav_status status.sh
+        #- export UAV_NAME=uav4; ros2 run mrs_uav_status status.sh
+        #- export UAV_NAME=uav5; ros2 run mrs_uav_status status.sh
+        #- export UAV_NAME=uav6; ros2 run mrs_uav_status status.sh
+        #- export UAV_NAME=uav7; ros2 run mrs_uav_status status.sh
+        #- export UAV_NAME=uav8; ros2 run mrs_uav_status status.sh
+        #- export UAV_NAME=uav9; ros2 run mrs_uav_status status.sh
+        #- export UAV_NAME=uav10; ros2 run mrs_uav_status status.sh
+  - activation:
+      layout: tiled
+      synchronize: after
+      panes:
+        - export UAV_NAME=uav11; waitForControl; history -s ros2 service call /$UAV_NAME/activation std_srvs/srv/Trigger
+        - export UAV_NAME=uav12; waitForControl; history -s ros2 service call /$UAV_NAME/activation std_srvs/srv/Trigger
+        #- export UAV_NAME=uav16; waitForControl; history -s ros2 service call /$UAV_NAME/activation std_srvs/srv/Trigger
+        #- export UAV_NAME=uav4; waitForControl; history -s ros2 service call /$UAV_NAME/activation std_srvs/srv/Trigger
+        #- export UAV_NAME=uav5; waitForControl; history -s ros2 service call /$UAV_NAME/activation std_srvs/srv/Trigger
+        #- export UAV_NAME=uav6; waitForControl; history -s ros2 service call /$UAV_NAME/activation std_srvs/srv/Trigger
+        #- export UAV_NAME=uav7; waitForControl; history -s ros2 service call /$UAV_NAME/activation std_srvs/srv/Trigger
+        #- export UAV_NAME=uav8; waitForControl; history -s ros2 service call /$UAV_NAME/activation std_srvs/srv/Trigger
+        #- export UAV_NAME=uav9; waitForControl; history -s ros2 service call /$UAV_NAME/activation std_srvs/srv/Trigger
+        #- export UAV_NAME=uav10; waitForControl; history -s ros2 service call /$UAV_NAME/activation std_srvs/srv/Trigger
+  - activation:
+      layout: tiled
+      synchronize: after
+      panes:
+        - export UAV_NAME=uav11; ros2 topic echo /$UAV_NAME/control_manager/reference
+        - export UAV_NAME=uav12; ros2 topic echo /$UAV_NAME/control_manager/reference
+        #- export UAV_NAME=uav16; ros2 topic echo /$UAV_NAME/control_manager/reference
+  - data_gatherer:
+      layout: tiled
+      panes:
+        - waitForControl; ros2 launch swarm_controllers data_gatherer.launch.py
+  - tcp:
+      layout: tiled
+      panes:
+        - export TCP_IP=192.168.69.84; ros2 run ros_tcp_endpoint default_server_endpoint --ros-args -p ROS_IP:=$TCP_IP
+  - rviz:
+      layout: tiled
+      panes:
+        #- ros2 run rviz2 rviz2 -d ./CustomRviz.rviz

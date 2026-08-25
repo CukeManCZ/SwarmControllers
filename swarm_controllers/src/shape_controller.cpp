@@ -201,6 +201,7 @@ namespace shape_controller {
     shapeBuilder_ = shape_lib::ShapeBuilder();
     InitOctoTree();
     wasShapeReseted = true;
+    wasOctomapReceived = false;
 
     is_initialized_ = true;
     RCLCPP_INFO(node_->get_logger(), "[ShapeController]: Initialization completed.");
@@ -229,6 +230,9 @@ namespace shape_controller {
       previousScore_ = std::numeric_limits<double>::lowest();
       previousScoreTime_ = clock_->now();
       wasShapeReseted = true;
+      wasOctomapReceived = true;
+
+      RCLCPP_INFO_THROTTLE(node_->get_logger(), *clock_, 20.0, "[ShapeController] Incoming octomap.");
 
       // --- Publish octomap ---
       octomap_msgs::msg::Octomap plain;
@@ -283,7 +287,7 @@ namespace shape_controller {
         return; 
 
     if(!all_robots_positions_valid_ && !got_position_command_){
-      RCLCPP_WARN(node_->get_logger(), "[ShapeController]: Waiting for valid robots."); 
+      RCLCPP_WARN(node_->get_logger(), "[ShapeController]: Waiting for valid robots.");
       GetPositionCmd();
       return;
     }
@@ -291,6 +295,30 @@ namespace shape_controller {
     if (!control_allowed_){
       RCLCPP_WARN(node_->get_logger(), "[ShapeController]: Waiting for activation");
       return;
+    }
+
+    if (!wasOctomapReceived){
+      RCLCPP_WARN(node_->get_logger(), "[ShapeController] Waiting for valid octomap");
+      return;
+
+    }else{
+      //Average print for debug
+      {
+        Eigen::Vector3d sum(0.0, 0.0, 0.0);
+
+        for (const auto& node : shapeNodes_) {
+            sum += node.position;
+        }
+
+        Eigen::Vector3d avg = sum / static_cast<double>(shapeNodes_.size());
+
+        RCLCPP_INFO_THROTTLE(
+            node_->get_logger(),
+            *clock_, 2.0,
+            "[Octomap] Average position: [x=%.3f, y=%.3f, z=%.3f]",
+            avg.x(), avg.y(), avg.z()
+        );
+      }
     }
 
     GetPositionCmd();
@@ -321,8 +349,8 @@ namespace shape_controller {
       p_ref.position.z = nz;
       p_ref.heading = 0.0;
 
-      RCLCPP_INFO_STREAM(node_->get_logger(), "[ShapeController] p_ref (control_frame=" << _control_frame_ 
-  << ") x=" << p_ref.position.x << " y=" << p_ref.position.y << " z=" << p_ref.position.z);
+      RCLCPP_INFO_STREAM(node_->get_logger(), "[Reference] [" 
+        << p_ref.position.x << "," << p_ref.position.y << "," << p_ref.position.z << "]-control_frame=" << _control_frame_ << ")");
     }
 
     auto request = std::make_shared<mrs_msgs::srv::ReferenceStampedSrv::Request>();
@@ -888,7 +916,7 @@ namespace shape_controller {
     double currentScore = ComputeScore(lastTarget_, intents_copy);
     if (bestScore > currentScore + _threshold_ || wasShapeReseted) {
       RCLCPP_INFO_THROTTLE(
-      node_->get_logger(), *clock_, 3.0,
+      node_->get_logger(), *clock_, 10.0,
       "[NEW NODE] [%.2f, %.2f, %.2f] bestScore (%.2f) > currentScore (%.2f) + Thr(%.2f)",
       targetPosition.x(), targetPosition.y(), targetPosition.z(), bestScore, currentScore, _threshold_
       );
@@ -953,6 +981,12 @@ namespace shape_controller {
     m.color.a = 0.8f;
 
     pub_target_marker_.publish(m);
+    RCLCPP_INFO_THROTTLE(
+            node_->get_logger(),
+            *clock_, 2.0,
+            "[TargetPosition]: [x=%.3f, y=%.3f, z=%.3f]",
+            target.x(), target.y(), target.z()
+    );
   }
   //}
 }

@@ -1,8 +1,3 @@
-motor_params:
-  a: 0.159768
-  b: -0.132224
-  n_motors: 4
-
 mrs_uav_managers:
     
   estimation_manager:
@@ -10,16 +5,17 @@ mrs_uav_managers:
     # loaded state estimator plugins
     # available in mrs_uav_state_estimators: gps_garmin, gps_baro, rtk, aloam, ground_truth, dummy
     state_estimators: [
-    "gps_baro",
-    "gps_garmin",
+    #"gps_baro",
+    #"gps_garmin",
     # "rtk",
     # "aloam",
     # "ground_truth",
     # "dummy"
+    "f9p"
     ]
 
-    initial_state_estimator: "gps_garmin" # will be used as the first state estimator
-    agl_height_estimator: "garmin_agl" # only slightly filtered height for checking min height (not used in control feedback)
+    initial_state_estimator: "f9p" # will be used as the first state estimator
+    agl_height_estimator: "" # only slightly filtered height for checking min height (not used in control feedback)
 
   control_manager:
 

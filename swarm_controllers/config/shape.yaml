@@ -35,9 +35,9 @@ controlled_dimensions: 3
 shape_constants:
   default_rate: 10 #[Hz]
   avoidance: 30.0
-  avoidance_distance: 4.0
+  avoidance_distance: 6.0
   waypoint: 4.0
-  cell_size: 0.25
+  cell_size: 2.0
   threshold: 0.05
   travel: 0.7
   min_height: 1.0

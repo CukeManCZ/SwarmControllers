@@ -9,7 +9,7 @@
   /// Which endpoints to connect to. E.g. tcp/localhost:7447. See https://docs.rs/zenoh/latest/zenoh/config/struct.EndPoint.html
   connect: {
     endpoints: [
-      //"tcp/192.168.69.1:7447" //<---- set the PC router here
+      //"tcp/192.168.69.1:7447"
     ],
   },
 
@@ -65,39 +65,7 @@
         "key_exprs": [
         "**",
         "@ros2_lv/**"]      
-      }
-      {
-        "id": "allow_odometry",
-        "messages": [
-          "put",
-          "declare_subscriber",
-          "delete"
-        ],
-        "flows": [
-          "ingress",
-          "egress"
-        ],
-        "permission": "allow",
-        "key_exprs": [
-          "**/estimation_manager/odom_main/**"
-        ]
-      },
-      {
-        "id": "allow_intent",
-        "messages": [
-          "put",
-          "declare_subscriber",
-          "delete"
-        ],
-        "flows": [
-          "ingress",
-          "egress"
-        ],
-        "permission": "allow",
-        "key_exprs": [
-          "**/intent/**"
-        ]
-      }, 
+        }    
     ],
 
     "subjects": [
@@ -107,7 +75,7 @@
       },
       {
         "id": "wifi_interfaces",
-        "interfaces": ["wlan0", "wlp1s0", "wlo1"]
+        "interfaces": ["wlan0", "wlp1s0"]
       }
     ],
 
@@ -115,7 +83,7 @@
     "policies": [
       {
         "id": "allow_list_wifi",
-        "rules": ["allow_list", "allow_tf_ingress", "allow_tf_egress", "allow_odometry", "allow_intent"],
+        "rules": ["allow_list", "allow_tf_ingress", "allow_tf_egress"],
         "subjects": ["wifi_interfaces"]
       },
       {

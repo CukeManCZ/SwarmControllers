@@ -7,10 +7,10 @@
 
 simulation_rate: 100.0
 dynamic:
-  realtime_factor: 1.0
+  realtime_factor: 0.5
   collisions:
-    crash: true
-    enabled: true
+    crash: false
+    enabled: false
 
 frames:
   fcu:
@@ -19,9 +19,9 @@ frames:
 uav_names: [
   "uav1",
   "uav2",
-  #"uav3",
-  #"uav4",
-  #"uav5",
+  "uav3",
+  "uav4",
+  "uav5",
   #"uav6",
   #uav7,
   #uav8,
@@ -32,7 +32,7 @@ uav_names: [
 uav1:
   type: "x500"
   spawn:
-    x: 0.0
+    x: -15.0
     y: 0.0
     z: 2.0
     heading: 0.0
@@ -40,8 +40,34 @@ uav1:
 uav2:
   type: "x500"
   spawn:
-    x: 3.0
+    x: -18.0
     y: 0.0
+    z: 2.0
+    heading: 0.0
+
+uav3:
+  type: "x500"
+  spawn:
+    x: -12.0
+    y: 0.0
+    z: 2.0
+    heading: 0.0
+
+
+uav4:
+  type: "x500"
+  spawn:
+    x: -18.0
+    y: -3.0
+    z: 2.0
+    heading: 0.0
+
+
+uav5:
+  type: "x500"
+  spawn:
+    x: -12.0
+    y: -3.0
     z: 2.0
     heading: 0.0
 

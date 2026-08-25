@@ -23,11 +23,12 @@ mrs_uav_managers:
         # x, y [m] for any frame_name except latlon_origin
         # x = latitude, y = longitude [deg]  for frame_name=="latlon_origin"
         points: [
-          -15, -15,
-          15,  -15,
-          15,  15,
-          -15, 15,
+          -8, -8,
+          8,  -8,
+          8,  8,
+          -8, 8,
         ]
+
       vertical:
 
         # the frame of reference in which the max&min z is expressed

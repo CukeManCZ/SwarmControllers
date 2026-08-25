@@ -1,4 +1,6 @@
-uav_names: ["uav80", "uav81"]
+#uav_names: ["uav9", "uav14", "uav16"]
+#uav_names: ["uav16", "uav9"]
+uav_names: ["uav11", "uav12"]
 
 odometry_topic: "estimation_manager/odom_main"
 reference_service_name: "control_manager/reference"

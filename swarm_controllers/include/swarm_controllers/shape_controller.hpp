@@ -150,6 +150,7 @@ namespace shape_controller
     void OctomapShapeCallback(const octomap_msgs::msg::OctomapWithPose::ConstSharedPtr msg);
     void InitOctoTree();
     bool wasShapeReseted;
+    bool wasOctomapReceived;
 
     mrs_lib::PublisherHandler<octomap_msgs::msg::Octomap> pub_octomac_rviz_;
 
