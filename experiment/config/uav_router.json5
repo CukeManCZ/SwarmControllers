@@ -65,7 +65,7 @@
         "key_exprs": [
         "**",
         "@ros2_lv/**"]      
-      }
+      },
       {
         "id": "allow_odometry",
         "messages": [
